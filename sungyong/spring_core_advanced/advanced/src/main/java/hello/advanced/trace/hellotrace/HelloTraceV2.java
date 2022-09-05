@@ -6,12 +6,16 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 /**
- * 실제 로그를 시작하고 종료할 수 있다.
- * 로그를 출력하고 실행시간을 측정할 수 있다.
+ * [ASIS]
+ * - 실제 로그를 시작하고 종료할 수 있다.
+ * - 로그를 출력하고 실행시간을 측정할 수 있다.
+ * [TOBE]
+ * - 메서드 호출의 깊이
+ * - HTTP 요청 단위로 특정 ID를 남겨서 어떤 HTTP 요청에서 시작된 것인지 구분
  */
 @Slf4j
 @Component  // 스프링 빈으로 등록. 싱글톤으로 사용.
-public class HelloTraceV1 {
+public class HelloTraceV2 {
     private static final String START_PREFIX = "-->";
     private static final String COMPLETE_PREFIX = "<--";
     private static final String EX_PREFIX = "<X-";
@@ -21,6 +25,20 @@ public class HelloTraceV1 {
         Long startTimeMs = System.currentTimeMillis();
         log.info("[{}] {}{}", traceId.getId(), addSpace(START_PREFIX, traceId.getLevel()), message);
         return new TraceStatus(traceId, startTimeMs, message);
+    }
+
+    /**
+     * [V2 추가 코드]
+     * - 기존 TraceId에서 createNextId() 를 통해 다음의 ID를 구한다.
+     * - createNextId() - TraceId 생성로직
+     *   - 트랜잭션ID는 기존과 동일 유지
+     *   - 깊이를 표현하는 Level은 1 증가한다.
+     */
+    public TraceStatus beginSync(TraceId beforeTraceId, String message) {
+        TraceId nextId = beforeTraceId.createNextId();
+        Long startTimeMs = System.currentTimeMillis();
+        log.info("[" + nextId.getId() + "] " + addSpace(START_PREFIX, nextId.getLevel()) + message);
+        return new TraceStatus(nextId,startTimeMs, message);
     }
 
     public void end(TraceStatus status) {
