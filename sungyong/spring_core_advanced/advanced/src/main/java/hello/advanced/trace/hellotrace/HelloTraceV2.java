@@ -6,12 +6,19 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 /**
- * [ASIS]
+ * [V1]
  * - 실제 로그를 시작하고 종료할 수 있다.
  * - 로그를 출력하고 실행시간을 측정할 수 있다.
- * [TOBE]
- * - 메서드 호출의 깊이
+ * [V2]
+ * - 메서드 호출의 깊이 표현
  * - HTTP 요청 단위로 특정 ID를 남겨서 어떤 HTTP 요청에서 시작된 것인지 구분
+ * ! 하지만 V2에도 한계가 있다.
+ *   - HTTP 요청 구분 및 깊이 표현을 위해 TraceId 동기화 필요 (beginSync 메소드)
+ *   - TraceId의 동기화를 위해 관련 메서드 파라미터 수정 필요
+ *      - 인터페이스가 존재한다면 인터페이스도 수정 필요
+ *   - 최초 로그 시작 시 begin(), 이후 beginSync() 호출 필요
+ *      - Controller가 아닌 다른 곳에서 Service를 첫 호출하면, 전달할 TraceId가 없음.
+ * - TraceId의 대안은 무엇이 있을까?
  */
 @Slf4j
 @Component  // 스프링 빈으로 등록. 싱글톤으로 사용.
@@ -32,7 +39,7 @@ public class HelloTraceV2 {
      * - 기존 TraceId에서 createNextId() 를 통해 다음의 ID를 구한다.
      * - createNextId() - TraceId 생성로직
      *   - 트랜잭션ID는 기존과 동일 유지
-     *   - 깊이를 표현하는 Level은 1 증가한다.
+     *   - 깊이를 표현하는 Level을 1 증가시킨다.
      */
     public TraceStatus beginSync(TraceId beforeTraceId, String message) {
         TraceId nextId = beforeTraceId.createNextId();
