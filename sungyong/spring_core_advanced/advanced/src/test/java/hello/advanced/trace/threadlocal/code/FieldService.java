@@ -4,7 +4,8 @@ import lombok.extern.slf4j.Slf4j;
 
 /**
  * [ThreadLocal - 동시성 문제 예제]
- * 파라미터로 넘어온 name을 nameStore에 저장한다.
+ * ThreadLocal 미적용, Field 방식 적용
+ * - 파라미터로 넘어온 name을 nameStore field에 저장한다.
  */
 @Slf4j
 public class FieldService {
