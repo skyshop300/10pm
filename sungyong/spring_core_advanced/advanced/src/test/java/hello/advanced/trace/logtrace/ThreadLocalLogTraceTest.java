@@ -5,7 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
-// TODO: ThreadLocal 30
 @Slf4j
 class ThreadLocalLogTraceTest {
     ThreadLocalLogTrace trace = new ThreadLocalLogTrace();
