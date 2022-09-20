@@ -1,17 +1,19 @@
 package hello.advanced.trace.logtrace;
 
+import hello.advanced.trace.LogTrace;
 import hello.advanced.trace.TraceId;
 import hello.advanced.trace.TraceStatus;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * [FieldLogTrace]
+ * [FieldLogTrace (V3)]
  * HelloTraceV2의 다음 버전.
  * HelloTrace와 다르게 traceId를 파라미터를 통한 전달이 아닌 traceIdHolder `Field`에 저장하여 사용.
  * - traceHolder를 이용하여 파라미터가 필요하지 않다.
  *      - 불필요하게 TraceId를 파라미터로 전달하지 않아도 된다.
  * - 애플리케이션의 메서드 파라미터도 변경하지 않아도 된다.
- * [ISSUE] 
+ *
+ * [ISSUE1]
  * 동시성 이슈를 가지고 있다.
  * FieldLogTrace는 싱글톤으로 등록된 Spring Bean이다.
  * 따라서 이 객체의 인스턴스는 애플리케이션에 1개만 존재한다.

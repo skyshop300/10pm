@@ -1,12 +1,15 @@
 package hello.advanced.app.v3;
 
 import hello.advanced.trace.TraceStatus;
-import hello.advanced.trace.logtrace.LogTrace;
+import hello.advanced.trace.LogTrace;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 
+/**
+ * [V3: Field, ThreadLocal 방식 적용]
+ */
 @RestController
 @RequiredArgsConstructor
 public class OrderControllerV3 {

@@ -1,11 +1,12 @@
 package hello.advanced.trace.logtrace;
 
+import hello.advanced.trace.LogTrace;
 import hello.advanced.trace.TraceId;
 import hello.advanced.trace.TraceStatus;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * [FieldLogTrace]
+ * [ThreadLocal (V3)]
  * HelloTraceV2의 다음 버전.
  * HelloTrace와 다르게 traceId를 파라미터를 통한 전달이 아닌 traceIdHolder `Field`에 저장하여 사용.
  * - traceHolder를 이용하여 파라미터가 필요하지 않다.
@@ -48,6 +49,18 @@ public class ThreadLocalLogTrace implements LogTrace {
         return new TraceStatus(traceId, startTimeMs, message);
     }
 
+    /**
+     * 로그를 시작할 때 호출
+     */
+    private void syncTraceId() {
+        TraceId traceId = traceIdHolder.get();
+        if (traceId == null) {
+            traceIdHolder.set(new TraceId());
+        } else {
+            traceIdHolder.set(traceId.createNextId());
+        }
+    }
+
     @Override
     public void end(TraceStatus status) {
         complete(status, null);
@@ -72,18 +85,6 @@ public class ThreadLocalLogTrace implements LogTrace {
                     e.toString());
         }
         releaseTraceId();
-    }
-
-    /**
-     * 로그를 시작할 때 호출
-     */
-    private void syncTraceId() {
-        TraceId traceId = traceIdHolder.get();
-        if (traceId == null) {
-            traceIdHolder.set(new TraceId());
-        } else {
-            traceIdHolder.set(traceId.createNextId());
-        }
     }
 
     /**
