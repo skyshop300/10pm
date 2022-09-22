@@ -14,18 +14,25 @@ import lombok.extern.slf4j.Slf4j;
  * Strategy에 구현체를 주입하여 사용한다.
  *
  * [Strategy 핵심]
- * Context는 Strategy 인터페이스만 의존한다.
+ * Context는 Strategy의 인터페이스만 의존한다.
  * 즉, 어떤 Strategy가 사용될지는 신경 쓰지 않는다. Context에서는 구현체가 무엇인지 정하지 않는다.
  * - 구현체를 외부에서 주입받아서 사용한다.
- * - Strategy의 구현체를 변경하거나 새로 만들어도 Context에는 영향을 주지 않는다.
+ * - Strategy의 구현체를 변경하거나 새로 만들어도 Context 코드에는 영향을 주지 않는다.
  * - == 스프링에서의존관계 주입에서 사용하는 방식
+ *
+ * [Context 작동원리]
+ * 1) Clinet 코드에서 Context에 원하는 Strategy 구현체 주입 // 생성자 주입
+ * 2) Client가 Context 실행
+ * 3) context 로직 시작
+ * 4) context 로직 중간에 strategy.call()을 호출해서 주입받은 strategy 로직을 실행한다.
+ *
  */
 @Slf4j
 public class ContextV1 {
 
     private Strategy strategy;      // 전략
 
-    public ContextV1(Strategy s) {
+    public ContextV1(Strategy strategy) {   // 생성자를 통해 strategy를 주입 받는다.
         this.strategy = strategy;
     }
 
