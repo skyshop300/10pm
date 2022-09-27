@@ -8,7 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 
 /**
- * TODO: Template Method Pattern and Callback - 26
+ * 전략 패턴 적용 - 선 조립 후 실행 방식
  */
 @Slf4j
 public class ContextV1Test {
@@ -40,7 +40,7 @@ public class ContextV1Test {
     }
 
     /**
-     * 전략 패턴 익명 내부 클래스
+     * 전략 패턴 - 익명 내부 클래스
      */
     @Test
     void strategyV2() {
@@ -66,23 +66,15 @@ public class ContextV1Test {
     }
 
     /**
-     * 전략 패턴 익명 내부 클래스
+     * 전략 패턴 - 람다 표현식
+     * ++ Lambda Expression: 람다식은 인터페이스에 메서드가 1개만 존재해야한다.
      */
     @Test
     void strategyV4() {
-        ContextV1 context_1 = new ContextV1(new Strategy() {
-            @Override
-            public void call() {
-                log.info("비즈니스 로직1 실행");
-            }
-        });
+        ContextV1 context_1 = new ContextV1(() -> log.info("비즈니스 로직1 실행"));
         context_1.execute();
 
-//        ContextV1 context_1 = new ContextV1(new Strategy() {
-//            @Override
-//            public void call() {
-//                log.info("비즈니스 로직1 실행")
-//            }
-//        });
+        ContextV1 context_2 = new ContextV1(() -> log.info("비즈니스 로직2 실행"));
+        context_2.execute();
     }
 }
