@@ -1,8 +1,7 @@
 package hello.advanced.trace.strategy;
 
-import hello.advanced.trace.strategy.code.StrategyLogic1;
-import hello.advanced.trace.strategy.code.StrategyLogic2;
-import hello.advanced.trace.strategy.code.strategy.ContextV1;
+import hello.advanced.trace.strategy.code.strategy.StrategyLogic1;
+import hello.advanced.trace.strategy.code.strategy.StrategyLogic2;
 import hello.advanced.trace.strategy.code.strategy.ContextV2;
 import hello.advanced.trace.strategy.code.strategy.Strategy;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +23,7 @@ public class ContextV2Test {
 
     // 익명 내부 클래스 사용
     @Test
-    void StrategyV2() {
+    void strategyV2() {
         ContextV2 context = new ContextV2();
         context.execute(new Strategy() {
             @Override

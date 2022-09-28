@@ -13,6 +13,11 @@ import lombok.extern.slf4j.Slf4j;
  * 2. Context는 context.execute()로직을 실행.
  * 3. context 파라미터로 넘어온 strategy.call() 로직을 실행.
  * 4. context의 execute() 로직이 종료됨.
+ *
+ * [템플릿]
+ * - 현재 적용 전략은 변하는/불변하는 부분을 분리하는것.
+ * - 변하지 않는 템플릿, 그 템플릿 안에서 원하는 부분만 살짝 다른 코드를 실행하고자 함.
+ *  => ContextV2: 실행 시점에 유연하게 실행 코드 조각을 전달하는 ContextV2가 더 적합하다.
  */
 @Slf4j
 public class ContextV2 {
