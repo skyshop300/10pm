@@ -1,30 +1,28 @@
 package hello.advanced.app.v5;
 
 import hello.advanced.trace.LogTrace;
-import hello.advanced.trace.templatemethod.AbstractTemplate;
-import lombok.RequiredArgsConstructor;
+import hello.advanced.trace.templatecallback.TraceTemplate;
 import org.springframework.stereotype.Repository;
 
 @Repository
-@RequiredArgsConstructor
 public class OrderRepositoryV5 {
 
-    private final LogTrace trace;
+    private final TraceTemplate traceTemplate;
+
+    public OrderRepositoryV5 (LogTrace trace) {
+        this.traceTemplate = new TraceTemplate(trace);
+    }
 
     public void save(String itemId) {
-        AbstractTemplate<Void> template = new AbstractTemplate<>(trace) {
-            @Override
-            protected Void call() {
-                //저장 로직
-                if (itemId.equals("ex")) {
-                    throw new IllegalStateException("예외 발생!");
-                }
-                sleep(1000);
-                return null;
+        traceTemplate.execute("OrderRepositoryV5.save()", () -> {
+            if(itemId.equals("ex")) {
+                throw new IllegalStateException();
             }
-        };
-        template.execute("OrderRepositoryV5");
+            sleep(1000);
+            return null;
+        });
     }
+
 
     private void sleep(int millis) {
         try {
