@@ -6,6 +6,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
+ * [Proxy Pattern]
+ * V1: 인터페이스와 구현 클래스 - 스프링 빈으로 수동 등록
+ * V2: 인터페이스가 없는 구체 클래스 - 스프링 빈으로 수동 등록
+ * V3: 컴포넌트 스캔으로 스프링 빈 자동 등록
+ *
+ * [V1: Spring Bean으로 수동 등록하는 방법 적용]
  * request(): LogTrace를 적용할 대상
  * nolog(): LogTrace를 적용하지 않을 대상
  */
